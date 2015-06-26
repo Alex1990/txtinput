@@ -7,6 +7,7 @@
     body {
       margin: 0;
       font-size: 14px;
+      line-height: 1.4;
       font-family: sans-serif;
       color: #444;
       background-color: #fdfdfe;
@@ -43,7 +44,7 @@
     }
     .page {
       margin: 20px;
-      width: 960px;
+      width: 800px;
     }
     .internal-link {
       text-decoration: none;
@@ -62,8 +63,8 @@
       <h2>Test demo</h2>
       <form action="">
         <p>
-          <button id="bind" type="button">Bind txtinput event</button>
-          <button id="unbind" type="button">Unbind txtinput event</button>
+          <button id="bind" type="button">Bind</button>
+          <button id="unbind" type="button">Unbind</button>
         </p>
         <p>
           <label for="keyword">Keyword: </label><input type="text" id="keyword" name="q">
@@ -93,6 +94,11 @@
         <li>
           In IE6-8, it should react to the first <a class="internal-link" href="#input-interaction">Input interaction</a>
           and <a class="internal-link" href="#delete-interaction">Delete interaction</a> after the page load.
+        </li>
+        <li>
+          In all <a class="internal-link" href="#tested-browsers">tested browsers</a>, 
+          it should not react to the interaction after clicking the "Unbind" button, then
+          it should react to the interaction after clicking the "bind" button.
         </li>
         <li>
           In all <a class="internal-link" href="#tested-browsers">tested browsers</a>, 
@@ -177,10 +183,15 @@
 
     var keyword = document.getElementById('keyword');
     var description = document.getElementById('description');
+    var count1 = 0;
+    var count2 = 0;
 
     var bindTxtinput = function() {
+
       txtinput(keyword, function(e) {
-        log('A txtinput event is triggered');
+        count1++;
+        log(count1 + ': A txtinput event is triggered on input#keyword');
+
         assert(this === keyword, 'The value of this should be the input element');
         // assert(e.type === 'txtinput', 'The event.type should be "txtinput"');
         // assert(e.target === keyword, 'The event.target should be the input element');
@@ -190,7 +201,9 @@
       });
 
       txtinput(description, function(e) {
-        log('A txtinput event is triggered');
+        count2++;
+        log(count2 + ': A txtinput event is triggered on textarea#description');
+
         assert(this === description, 'The value of this should be the textarea element');
         // assert(e.type === 'txtinput', 'The event.type should be "txtinput"');
         // assert(e.target === description, 'The event.target should be the textarea element');
@@ -199,6 +212,7 @@
         // log(e.originalEvent);
       });
     };
+
     bindTxtinput();
 
     var bindBtn = document.getElementById('bind');
@@ -207,6 +221,7 @@
     bindBtn.onclick = bindTxtinput;
 
     unbindBtn.onclick = function() {
+      count1 = count2 = 0;
       keyword._unbindTxtinput && keyword._unbindTxtinput();
       description._unbindTxtinput && description._unbindTxtinput();
     };
