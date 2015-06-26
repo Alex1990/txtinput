@@ -22,25 +22,30 @@
 }(this, function($, global) {
 
   var isIE = /msie|trident/i.test(navigator.userAgent);
-  var isIE9 = document.documentMode && document.documentMode === 9;
+  var isIE9 = document.documentMode && (document.documentMode === 9);
 
+  // Check if an event is supported on the node.
   var isEventSupported = function(eventName, nodeName) {
     var elem = document.createElement(nodeName);
     eventName = 'on' + eventName;
     var isSupported = eventName in elem;
+
     if (!isSupported) {
       elem.setAttribute(eventName, 'return;');
       isSupported = typeof elem[eventName] === 'function';
     }
     elem = null;
+
     return isSupported;
   };
 
+  // Cache if the input event is supported by `input` and `textarea` tag.
   var inputSupported = {
     input: isEventSupported('input', 'input'),
     textarea: isEventSupported('input', 'textarea')
   };
 
+  // A cross browser wrapper to bind event listener.
   var addEvent = function(elem, type, listener) {
     if (elem.addEventListener) {
       elem.addEventListener(type, listener, false);
@@ -55,6 +60,7 @@
     }
   };
 
+  // A cross browser wrapper to unbind event listener.
   var removeEvent = function(elem, type, listener) {
     if (elem.removeEventListener) {
       elem.removeEventListener(type, listener, false);
@@ -63,11 +69,18 @@
     }
   };
 
+  // Bind the listener for input event on the `elem`.
   function txtinput(elem, listener) {
     var isInputSupported = inputSupported[elem.tagName.toLowerCase()] ||
                           elem.contenteditable === 'true';
     var lastValue = elem.value;
 
+    // If the browser supports `input` event, the native `input` event will be used.
+    //
+    // In IE 9, propertychange/input fires for most input events but is buggy
+    // and doesn't fire when text is deleted, but conveniently,
+    // "selectionchange" appears to fire in all of the remaining cases so
+    // we catch those.
     if (isInputSupported && !isIE9) {
       addEvent(elem, 'input', listener);
     } else {
@@ -102,6 +115,7 @@
         addEvent(elem, 'blur', focusListener);
       }
 
+      // When the `keydown`/`cut`/`paste` event is triggered, the content of the field hasn't been modified. In the next tick, the content is modified.
       var nextTickInputListener = function(e) {
         var that = this;
         setTimeout(function() {
@@ -116,6 +130,7 @@
 
     var lastUnbindInput = elem._unbindInput;
 
+    // Unbind the input event.
     elem._unbindInput = function() {
 
       lastUnbindInput && lastUnbindInput.call(elem);
@@ -141,6 +156,7 @@
     };
   }
 
+  // If the jQuery exists, the `txtinput` method will be exposed on the jQuery prototype. Otherwise, it will be exposed on the global object.
   if ($ && $.fn) {
     $.fn.txtinput = function(listener) {
       return this.each(function() {
@@ -152,5 +168,4 @@
   }
 
   return txtinput;
-
 }));
