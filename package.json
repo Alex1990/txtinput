@@ -1,0 +1,35 @@
+{
+  "name": "txtinput",
+  "version": "0.1.0",
+  "description": "A cross browser input event module",
+  "main": "txtinput.js",
+  "author": {
+    "name": "Alex Chao",
+    "email": "alexchao1990@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Alex1990/txtinput.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Alex1990/txtinput/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/Alex1990/txtinput/blob/master/LICENSE"
+    }
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-jshint": "^1.10.0",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.2.0"
+  },
+  "keywords": [
+    "input",
+    "input event"
+  ]
+}

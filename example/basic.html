@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic</title>
+</head>
+<body>
+    <form action="">
+        <p>
+            <label for="keyword">Keyword: </label><input type="text" id="keyword" name="q">
+        </p>
+        <p>
+            <label for="description">Description: </label><textarea id="description" name="desc" cols="30" rows="10"></textarea>
+        </p>
+    </form>
+
+    <script src="../txtinput.js"></script>
+    <script>
+        var keyword = document.getElementById('keyword');
+        txtinput(keyword, function(e) {
+            console.log('inputing');
+            console.log('value: ' + keyword.value);
+            console.log(e.type);
+            console.log(e);
+        });
+
+        var description = document.getElementById('description');
+        txtinput(description, function(e) {
+            console.log('inputing');
+            console.log('value: ' + description.value);
+            console.log(e.type);
+            console.log(e);
+        });
+    </script>
+</body>
+</html>
