@@ -12,6 +12,18 @@
       color: #444;
       background-color: #fdfdfe;
     }
+    .page {
+      margin: 20px;
+      width: 800px;
+    }
+    .internal-link {
+      text-decoration: none;
+      font-weight: 700;
+      color: #444;
+    }
+    .internal-link:hover {
+      text-decoration: underline;
+    }
     h1 {
       margin-top: 1em;
       margin-bottom: .75em;
@@ -42,17 +54,27 @@
       margin-bottom: .5em;
       font-weight: 700;
     }
-    .page {
-      margin: 20px;
-      width: 800px;
+    button {
+      margin: 0;
+      padding: 8px 20px;
+      font-size: 16px;
+      line-height: 1;
+      background-color: #eee;
+      border: 1px solid #ddd;
     }
-    .internal-link {
-      text-decoration: none;
-      font-weight: 700;
-      color: #444;
+    button:hover {
+      background-color: #f4f4f4;
+      cursor: pointer;
     }
-    .internal-link:hover {
-      text-decoration: underline;
+    button:active {
+      background-color: #e8e8e8;
+    }
+    button:focus {
+      background-color: #e8e8e8;
+      outline: none;
+    }
+    textarea {
+      overflow: auto;
     }
   </style>
 </head>
@@ -141,13 +163,13 @@
       </dl>
       <dl id="input-interaction">
         <dt>Input interaction</dt>
-        <dd>Add character(s), including <i>Type</i>, <i>Paste</i>, <i>Drop</i>, <i>Cancel</i>.
+        <dd>Add character(s), including <i>Type</i>, <i>Paste</i>, <i>Drop</i>, <i>Undo</i> and <i>Redo</i>.
           The interaction may be triggerd by keyboard, mouse (context menu or menu bar).</dd>
       </dl>
       <dl id="delete-interaction">
         <dt>Delete interaction</dt>
         <dd>Delete character(s), including <i>Backspace</i>, <i>Delete</i>, <i>Cut</i>,
-          <i>Drag</i>, <i>Cancel</i> and <i>ESC</i> in IE. The interaction may be triggered
+          <i>Drag</i>, <i>Undo</i>, <i>Redo</i> and <i>ESC</i> in IE. The interaction may be triggered
           by keyboard, mouse (context menu or menu bar).</dd>
       </dl>
     </div>
@@ -183,6 +205,7 @@
 
     var keyword = document.getElementById('keyword');
     var description = document.getElementById('description');
+    var sepLine = '============================================';
     var count1 = 0;
     var count2 = 0;
 
@@ -190,7 +213,16 @@
 
       txtinput(keyword, function(e) {
         count1++;
+        log(sepLine);
         log(count1 + ': A txtinput event is triggered on input#keyword');
+        log('value: ' + keyword.value);
+        log('event.type: ' + e.type);
+
+        log('event.target:');
+        log(e.target);
+
+        log('event:');
+        log(e);
 
         assert(this === keyword, 'The value of this should be the input element');
         // assert(e.type === 'txtinput', 'The event.type should be "txtinput"');
@@ -202,7 +234,16 @@
 
       txtinput(description, function(e) {
         count2++;
+        log(sepLine);
         log(count2 + ': A txtinput event is triggered on textarea#description');
+        log('value: ' + description.value);
+        log('event.type: ' + e.type);
+
+        log('event.target:');
+        log(e.target);
+
+        log('event:');
+        log(e);
 
         assert(this === description, 'The value of this should be the textarea element');
         // assert(e.type === 'txtinput', 'The event.type should be "txtinput"');
