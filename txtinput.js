@@ -130,12 +130,12 @@
       addEvent(elem, 'paste', nextTickInputListener);
     }
 
-    var lastUnbindInput = elem._unbindInput;
+    var lastUnbindTxtinput = elem._unbindTxtinput;
 
     // Unbind the input event.
-    elem._unbindInput = function() {
+    elem._unbindTxtinput = function() {
 
-      lastUnbindInput && lastUnbindInput.call(elem);
+      lastUnbindTxtinput && lastUnbindTxtinput.call(elem);
 
       if (isInputSupported && !isIE9) {
         removeEvent(elem, 'input', listener);

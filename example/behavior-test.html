@@ -100,7 +100,7 @@
           <a class="internal-link" href="#input-interaction">Input interaction</a> or 
           <a class="internal-link" href="#delete-interaction">Delete interaction</a>.
         </li>
-        <li>
+<!--         <li>
           In all <a class="internal-link" href="#tested-browsers">tested browsers</a>, 
           the <code>event.type</code> should be <code>"txtinput"</code>.
         <li>
@@ -109,18 +109,18 @@
           <a class="internal-link" href="#input-interaction">Input interaction</a> or 
           <a class="internal-link" href="#delete-interaction">Delete interaction</a>.
         </li>
-<!--         <li>
+        <li>
           In all <a class="internal-link" href="#tested-browsers">tested browsers</a>, 
           the <code>event.data</code> should be the characters inputed for the
           <a class="internal-link" href="#input-interaction">Input interaction</a> and
           the empty string <code>""</code> for the <a class="internal-link" href="#delete-interaction">Delete interaction</a>
         </li>
- -->        </li>
+        </li>
         <li>
           In all <a class="internal-link" href="#tested-browsers">tested browsers</a>, 
           the <code>event.originalEvent</code> should be the actual event object.
         </li>
-      </ul>
+ -->      </ul>
     </div>
     <div id="concepts">
       <h2>Concept</h2>
@@ -182,21 +182,21 @@
       txtinput(keyword, function(e) {
         log('A txtinput event is triggered');
         assert(this === keyword, 'The value of this should be the input element');
-        assert(e.type === 'txtinput', 'The event.type should be "txtinput"');
-        assert(e.target === keyword, 'The event.target should be the input element');
+        // assert(e.type === 'txtinput', 'The event.type should be "txtinput"');
+        // assert(e.target === keyword, 'The event.target should be the input element');
         // log('event.data: ' + e.data);
-        log('event.originalEvent:');
-        log(e.originalEvent);
+        // log('event.originalEvent:');
+        // log(e.originalEvent);
       });
 
       txtinput(description, function(e) {
         log('A txtinput event is triggered');
         assert(this === description, 'The value of this should be the textarea element');
-        assert(e.type === 'txtinput', 'The event.type should be "txtinput"');
-        assert(e.target === description, 'The event.target should be the textarea element');
+        // assert(e.type === 'txtinput', 'The event.type should be "txtinput"');
+        // assert(e.target === description, 'The event.target should be the textarea element');
         // log('event.data: ' + e.data);
-        log('event.originalEvent: ');
-        log(e.originalEvent);
+        // log('event.originalEvent: ');
+        // log(e.originalEvent);
       });
     };
     bindTxtinput();
