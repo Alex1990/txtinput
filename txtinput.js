@@ -45,28 +45,29 @@
     textarea: isEventSupported('input', 'textarea')
   };
 
-  // A cross browser wrapper to bind event listener.
-  var addEvent = function(elem, type, listener) {
-    if (elem.addEventListener) {
-      elem.addEventListener(type, listener, false);
-    } else if (elem.attachEvent) {
-      var wrapper = function(e) {
-        e = e || window.event;
-        e.target = e.srcElement;
-        listener.call(elem, e);
-      };
-      listener._listener = wrapper;
-      elem.attachEvent('on' + type, wrapper);
+  // Shadow copy
+  var copyObj = function(to, from) {
+    for (var p in from) {
+      // Do not use `hasOwnProperty`. Because of the property of the event object 
+      // [object MSEventObj], it will return false in IE 9.
+      to[p] = from[p];
     }
+    return to;
   };
 
-  // A cross browser wrapper to unbind event listener.
+  // A shortcut for attachEvent.
+  var addEvent = function(elem, type, listener) {
+    elem[type + listener] = function(e) {
+      e = e || window.event;
+      e.target = e.srcElement;
+      listener.call(elem, e);
+    };
+    elem.attachEvent('on' + type, elem[type + listener]);
+  };
+
+  // A shourtcut for detachEvent.
   var removeEvent = function(elem, type, listener) {
-    if (elem.removeEventListener) {
-      elem.removeEventListener(type, listener, false);
-    } else if (elem.detachEvent) {
-      elem.detachEvent('on' + type, listener._listener || listener);
-    }
+    elem.detachEvent('on' + type, elem[type + listener]);
   };
 
   // Bind the listener for input event on the `elem`.
@@ -82,12 +83,15 @@
     // "selectionchange" appears to fire in all of the remaining cases so
     // we catch those.
     if (isInputSupported && !isIE9) {
-      addEvent(elem, 'input', listener);
+      elem.addEventListener('input', listener, false);
     } else {
 
       var inputListener = function(e) {
         if (elem.value !== lastValue) {
           lastValue =  elem.value;
+          if (e.target !== elem) {
+            e.target = elem;
+          }
           listener.call(elem, e);
         }
       };
@@ -115,19 +119,25 @@
         addEvent(elem, 'blur', focusListener);
       }
 
-      // When the `keydown`/`cut`/`paste` event is triggered, the content 
+      // When the `keydown`/`paste`/`drop` event is triggered, the content 
       // of the field hasn't been modified. In the next tick, the content 
       // is modified.
       var nextTickInputListener = function(e) {
         var that = this;
+        var event = copyObj({}, e);
         setTimeout(function() {
-          inputListener.call(that, e);
+          inputListener.call(that, event);
         }, 0);
       };
 
+      // In IE6-9, the first input interaction may not trigger the `onpropertychange`
+      // event on textarea.
+      // In IE9, the ESC key may not trigger the `propertychange` or `selectionchange`
+      // event.
+      // The `keydown`/`paste`/`drop` event can fix the above bugs.
       addEvent(elem, 'keydown', nextTickInputListener);
-      addEvent(elem, 'cut', nextTickInputListener);
       addEvent(elem, 'paste', nextTickInputListener);
+      addEvent(elem, 'drop', nextTickInputListener);
     }
 
     var lastUnbindTxtinput = elem._unbindTxtinput;
@@ -138,7 +148,7 @@
       lastUnbindTxtinput && lastUnbindTxtinput.call(elem);
 
       if (isInputSupported && !isIE9) {
-        removeEvent(elem, 'input', listener);
+        elem.removeEventListener('input', listener);
       } else {
 
         if (isIE) {
@@ -152,8 +162,8 @@
         }
 
         removeEvent(elem, 'keydown', nextTickInputListener);
-        removeEvent(elem, 'cut', nextTickInputListener);
         removeEvent(elem, 'paste', nextTickInputListener);
+        removeEvent(elem, 'drop', nextTickInputListener);
       }
     };
   }

@@ -54,22 +54,31 @@
       margin-bottom: .5em;
       font-weight: 700;
     }
-    button {
+    .btn-group .btn {
+      margin: 0 10px;
+    }
+    .btn {
+      display: inline-block;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
       margin: 0;
-      padding: 8px 20px;
+      padding: 6px 20px 8px;
+      height: 30px;
       font-size: 16px;
       line-height: 1;
       background-color: #eee;
       border: 1px solid #ddd;
+      overflow: visible;
     }
-    button:hover {
+    .btn:hover {
       background-color: #f4f4f4;
       cursor: pointer;
     }
-    button:active {
+    .btn:active {
       background-color: #e8e8e8;
     }
-    button:focus {
+    .btn:focus {
       background-color: #e8e8e8;
       outline: none;
     }
@@ -84,15 +93,15 @@
     <div id="demo">
       <h2>Test demo</h2>
       <form action="">
-        <p>
-          <button id="bind" type="button">Bind</button>
-          <button id="unbind" type="button">Unbind</button>
+        <p class="btn-group">
+          <button id="bind" class="btn" type="button">Bind</button>
+          <button id="unbind" class="btn" type="button">Unbind</button>
         </p>
         <p>
           <label for="keyword">Keyword: </label><input type="text" id="keyword" name="q">
         </p>
         <p>
-          <label for="description">Description: </label><textarea id="description" name="desc" cols="30" rows="10"></textarea>
+          <label for="description">Description: </label><textarea id="description" name="desc" cols="30" rows="10">aaaaaaaaa</textarea>
         </p>
       </form>
     </div>
@@ -127,6 +136,11 @@
           the value of <code>this</code> should be the element which is receiving 
           <a class="internal-link" href="#input-interaction">Input interaction</a> or 
           <a class="internal-link" href="#delete-interaction">Delete interaction</a>.
+        </li>
+        <li>
+          In all <a class="internal-link" href="#tested-browsers">tested browsers</a>, 
+          firstly, input/delete some characters in A field, then execute <i>Undo</i> command in B field,
+          then an input event should be triggered on A field.
         </li>
 <!--         <li>
           In all <a class="internal-link" href="#tested-browsers">tested browsers</a>, 
@@ -218,15 +232,12 @@
         log('value: ' + keyword.value);
         log('event.type: ' + e.type);
 
-        log('event.target:');
-        log(e.target);
-
         log('event:');
         log(e);
 
         assert(this === keyword, 'The value of this should be the input element');
         // assert(e.type === 'txtinput', 'The event.type should be "txtinput"');
-        // assert(e.target === keyword, 'The event.target should be the input element');
+        assert(e.target === keyword, 'The event.target should be the input element');
         // log('event.data: ' + e.data);
         // log('event.originalEvent:');
         // log(e.originalEvent);
@@ -239,15 +250,12 @@
         log('value: ' + description.value);
         log('event.type: ' + e.type);
 
-        log('event.target:');
-        log(e.target);
-
         log('event:');
         log(e);
 
         assert(this === description, 'The value of this should be the textarea element');
         // assert(e.type === 'txtinput', 'The event.type should be "txtinput"');
-        // assert(e.target === description, 'The event.target should be the textarea element');
+        assert(e.target === description, 'The event.target should be the textarea element');
         // log('event.data: ' + e.data);
         // log('event.originalEvent: ');
         // log(e.originalEvent);
