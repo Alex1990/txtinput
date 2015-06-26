@@ -115,7 +115,9 @@
         addEvent(elem, 'blur', focusListener);
       }
 
-      // When the `keydown`/`cut`/`paste` event is triggered, the content of the field hasn't been modified. In the next tick, the content is modified.
+      // When the `keydown`/`cut`/`paste` event is triggered, the content 
+      // of the field hasn't been modified. In the next tick, the content 
+      // is modified.
       var nextTickInputListener = function(e) {
         var that = this;
         setTimeout(function() {
@@ -156,7 +158,8 @@
     };
   }
 
-  // If the jQuery exists, the `txtinput` method will be exposed on the jQuery prototype. Otherwise, it will be exposed on the global object.
+  // If the jQuery exists, the `txtinput` method will be exposed on the 
+  // jQuery prototype. Otherwise, it will be exposed on the global object.
   if ($ && $.fn) {
     $.fn.txtinput = function(listener) {
       return this.each(function() {
