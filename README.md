@@ -25,6 +25,10 @@ A method `_unbindTxtinput` will be as the property of the `keyword` element, whi
 keyword._unbindTxtinput();
 ```
 
+**Todos:**
+
+- Test the `contenteditable="true"` element.
+
 ## Packages
 
 **NPM:**
