@@ -82,6 +82,18 @@
       background-color: #e8e8e8;
       outline: none;
     }
+    input,
+    textarea {
+      border: 1px solid #ddd;
+    }
+    input:hover,
+    textarea:hover {
+      border-color: #ccc;
+    }
+    input:focus,
+    textarea:focus {
+      border-color: #3af;
+    }
     textarea {
       overflow: auto;
     }
@@ -101,7 +113,7 @@
           <label for="keyword">Keyword: </label><input type="text" id="keyword" name="q">
         </p>
         <p>
-          <label for="description">Description: </label><textarea id="description" name="desc" cols="30" rows="10">aaaaaaaaa</textarea>
+          <label for="description">Description: </label><textarea id="description" name="desc" cols="30" rows="10"></textarea>
         </p>
       </form>
     </div>

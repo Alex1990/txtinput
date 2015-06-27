@@ -10,16 +10,16 @@
   // See: https://github.com/umdjs/umd
   if (typeof define === 'function' && define.amd) {
     // Expose this plugin as an AMD module. Register an anonymous module.
-    define(['jquery'], factory);
+    define(factory);
   } else if (typeof exports === 'object') {
     // Node/CommonJS module
-    module.exports = factory(require('jquery'));
+    module.exports = factory();
   } else {
     // Browser globals
-    factory(global.jQuery, global);
+    global.txtinput = factory();
   }
 
-}(this, function($, global) {
+}(this, function() {
 
   var isIE = /msie|trident/i.test(navigator.userAgent);
   var isIE9 = document.documentMode && (document.documentMode === 9);
@@ -168,17 +168,6 @@
     };
   }
 
-  // If the jQuery exists, the `txtinput` method will be exposed on the 
-  // jQuery prototype. Otherwise, it will be exposed on the global object.
-  if ($ && $.fn) {
-    $.fn.txtinput = function(listener) {
-      return this.each(function() {
-        txtinput(this, listener);
-      });
-    };
-  } else if (global) {
-    global.txtinput = txtinput;
-  }
-
   return txtinput;
+
 }));
