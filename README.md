@@ -4,7 +4,7 @@ A cross browser input event module. It also can be supported as a CommonJS/AMD m
 
 ## Usage
 
-This module will expose an method named `txtinput` on the global object. Then, you can use it to bind a cross-browser input event listener on an `input`, `textarea` or a `contenteditable="true"` element.
+This module will expose an method named `txtinput` on the global object. Then, you can use it to bind a cross-browser input event listener on an `input` or `textarea` element. 
 
 **For example:**
 
@@ -24,10 +24,6 @@ A method `_unbindTxtinput` will be as the property of the `keyword` element, whi
 ```js
 keyword._unbindTxtinput();
 ```
-
-**Todos:**
-
-- Test the `contenteditable="true"` element.
 
 ## Packages
 

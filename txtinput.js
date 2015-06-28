@@ -72,8 +72,7 @@
 
   // Bind the listener for input event on the `elem`.
   function txtinput(elem, listener) {
-    var isInputSupported = inputSupported[elem.tagName.toLowerCase()] ||
-                          elem.contenteditable === 'true';
+    var isInputSupported = inputSupported[elem.tagName.toLowerCase()];
     var lastValue = elem.value;
 
     // If the browser supports `input` event, the native `input` event will be used.
