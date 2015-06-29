@@ -21,6 +21,8 @@
 
 }(this, function() {
 
+  'use strict';
+
   var isIE = /msie|trident/i.test(navigator.userAgent);
   var isIE9 = document.documentMode && (document.documentMode === 9);
 
